@@ -16,6 +16,7 @@ import {
   Table2,
   Presentation,
   Activity,
+  BarChart3,
 } from 'lucide-react';
 import { useDesktopStore } from '@/stores/desktopStore';
 import type { AppType } from '@/types/desktop';
@@ -32,6 +33,7 @@ const appIcons: Record<AppType, React.ComponentType<{ className?: string }>> = {
   calc: Table2,
   impress: Presentation,
   'system-monitor': Activity,
+  dashboard: BarChart3,
 };
 
 export function Taskbar() {
