@@ -1,8 +1,29 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* PostHog inspired colors */
+  --color-primary: #F54E00;
+  --color-primary-hover: #E04500;
+  --color-background: #EEEFE9;
+  --color-surface: #FFFFFF;
+  --color-text: #151515;
+  --color-text-secondary: #6B6B6B;
+  --color-border: #D0D1C9;
+
+  /* Ubuntu colors */
+  --color-ubuntu-orange: #E95420;
+  --color-ubuntu-purple: #772953;
+  --color-ubuntu-dark: #2C001E;
+  --color-ubuntu-aubergine: #77216F;
+  --color-ubuntu-warm-grey: #AEA79F;
+
+  /* Terminal colors */
+  --color-terminal-bg: #300A24;
+  --color-terminal-text: #FFFFFF;
+  --color-terminal-prompt: #8AE234;
+
+  --background: #EEEFE9;
+  --foreground: #151515;
 }
 
 @theme inline {
@@ -12,15 +33,63 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar for terminal */
+.terminal-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.terminal-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.terminal-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.terminal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Selection color */
+::selection {
+  background: var(--color-ubuntu-orange);
+  color: white;
+}
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--color-ubuntu-orange);
+  outline-offset: 2px;
+}
+
+/* Disable text selection on desktop icons */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Window drag handle cursor */
+.window-drag-handle {
+  cursor: default;
+}
+
+.window-drag-handle:active {
+  cursor: grabbing;
 }

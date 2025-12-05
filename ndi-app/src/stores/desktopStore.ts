@@ -1,0 +1,149 @@
+import { create } from 'zustand';
+import {
+  WindowState,
+  AppType,
+  Position,
+  Size,
+  DEFAULT_WINDOW_SIZES,
+  APP_TITLES,
+} from '@/types/desktop';
+
+interface DesktopStore {
+  // State
+  windows: WindowState[];
+  activeWindowId: string | null;
+  wallpaper: string;
+  nextZIndex: number;
+
+  // Actions
+  openWindow: (app: AppType) => void;
+  closeWindow: (id: string) => void;
+  minimizeWindow: (id: string) => void;
+  maximizeWindow: (id: string) => void;
+  restoreWindow: (id: string) => void;
+  focusWindow: (id: string) => void;
+  updateWindowPosition: (id: string, position: Position) => void;
+  updateWindowSize: (id: string, size: Size) => void;
+  setWallpaper: (url: string) => void;
+}
+
+const generateId = () => Math.random().toString(36).substring(2, 9);
+
+const getRandomPosition = (): Position => ({
+  x: 50 + Math.random() * 200,
+  y: 50 + Math.random() * 100,
+});
+
+export const useDesktopStore = create<DesktopStore>((set, get) => ({
+  windows: [],
+  activeWindowId: null,
+  wallpaper: '/wallpaper.jpg',
+  nextZIndex: 1,
+
+  openWindow: (app: AppType) => {
+    const { windows, nextZIndex } = get();
+
+    // Check if app is already open (except for text-editor which can have multiple)
+    const existingWindow = windows.find((w) => w.app === app && !w.isMinimized);
+    if (existingWindow && app !== 'text-editor') {
+      get().focusWindow(existingWindow.id);
+      return;
+    }
+
+    // If minimized, restore it
+    const minimizedWindow = windows.find((w) => w.app === app && w.isMinimized);
+    if (minimizedWindow) {
+      get().restoreWindow(minimizedWindow.id);
+      return;
+    }
+
+    const id = generateId();
+    const newWindow: WindowState = {
+      id,
+      title: APP_TITLES[app],
+      app,
+      position: getRandomPosition(),
+      size: DEFAULT_WINDOW_SIZES[app],
+      isMinimized: false,
+      isMaximized: false,
+      zIndex: nextZIndex,
+    };
+
+    set({
+      windows: [...windows, newWindow],
+      activeWindowId: id,
+      nextZIndex: nextZIndex + 1,
+    });
+  },
+
+  closeWindow: (id: string) => {
+    set((state) => ({
+      windows: state.windows.filter((w) => w.id !== id),
+      activeWindowId:
+        state.activeWindowId === id ? null : state.activeWindowId,
+    }));
+  },
+
+  minimizeWindow: (id: string) => {
+    set((state) => ({
+      windows: state.windows.map((w) =>
+        w.id === id ? { ...w, isMinimized: true } : w
+      ),
+      activeWindowId:
+        state.activeWindowId === id ? null : state.activeWindowId,
+    }));
+  },
+
+  maximizeWindow: (id: string) => {
+    set((state) => ({
+      windows: state.windows.map((w) =>
+        w.id === id ? { ...w, isMaximized: true } : w
+      ),
+    }));
+  },
+
+  restoreWindow: (id: string) => {
+    const { nextZIndex } = get();
+    set((state) => ({
+      windows: state.windows.map((w) =>
+        w.id === id
+          ? { ...w, isMinimized: false, isMaximized: false, zIndex: nextZIndex }
+          : w
+      ),
+      activeWindowId: id,
+      nextZIndex: nextZIndex + 1,
+    }));
+  },
+
+  focusWindow: (id: string) => {
+    const { nextZIndex, windows } = get();
+    const window = windows.find((w) => w.id === id);
+    if (!window || window.isMinimized) return;
+
+    set({
+      windows: windows.map((w) =>
+        w.id === id ? { ...w, zIndex: nextZIndex } : w
+      ),
+      activeWindowId: id,
+      nextZIndex: nextZIndex + 1,
+    });
+  },
+
+  updateWindowPosition: (id: string, position: Position) => {
+    set((state) => ({
+      windows: state.windows.map((w) =>
+        w.id === id ? { ...w, position } : w
+      ),
+    }));
+  },
+
+  updateWindowSize: (id: string, size: Size) => {
+    set((state) => ({
+      windows: state.windows.map((w) => (w.id === id ? { ...w, size } : w)),
+    }));
+  },
+
+  setWallpaper: (url: string) => {
+    set({ wallpaper: url });
+  },
+}));
