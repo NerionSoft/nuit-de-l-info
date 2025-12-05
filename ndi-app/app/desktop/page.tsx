@@ -1,12 +1,29 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Desktop } from '@/components/desktop/Desktop';
+import { TutorialOverlay } from '@/components/tutorial';
+import { useTutorialStore } from '@/stores/tutorialStore';
 import { Monitor } from 'lucide-react';
 
-export default function DesktopPage() {
+function DesktopContent() {
+  const searchParams = useSearchParams();
+  const { startTutorial, isActive: isTutorialActive } = useTutorialStore();
   const [isMobile, setIsMobile] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Check for tutorial mode from URL
+  useEffect(() => {
+    const tutorialParam = searchParams.get('tutorial');
+    if (tutorialParam === 'true' && !isTutorialActive) {
+      // Start tutorial after boot sequence
+      const timer = setTimeout(() => {
+        startTutorial();
+      }, 1600);
+      return () => clearTimeout(timer);
+    }
+  }, [searchParams, startTutorial, isTutorialActive]);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -75,5 +92,22 @@ export default function DesktopPage() {
     );
   }
 
-  return <Desktop />;
+  return (
+    <>
+      <Desktop />
+      <TutorialOverlay />
+    </>
+  );
+}
+
+export default function DesktopPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#2C001E] flex items-center justify-center">
+        <div className="text-white">Chargement...</div>
+      </div>
+    }>
+      <DesktopContent />
+    </Suspense>
+  );
 }

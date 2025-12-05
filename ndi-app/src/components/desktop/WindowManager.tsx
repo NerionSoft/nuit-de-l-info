@@ -9,6 +9,9 @@ import { TextEditor } from '@/components/apps/TextEditor';
 import { Calculator } from '@/components/apps/Calculator';
 import { Browser } from '@/components/apps/Browser';
 import { Trash } from '@/components/apps/Trash';
+import { Writer } from '@/components/apps/Writer';
+import { Calc } from '@/components/apps/Calc';
+import { Impress } from '@/components/apps/Impress';
 import type { AppType } from '@/types/desktop';
 
 const AppComponents: Record<AppType, React.ComponentType<{ windowId: string }>> = {
@@ -19,6 +22,9 @@ const AppComponents: Record<AppType, React.ComponentType<{ windowId: string }>> 
   calculator: Calculator,
   browser: Browser,
   trash: Trash,
+  writer: Writer,
+  calc: Calc,
+  impress: Impress,
 };
 
 export function WindowManager() {

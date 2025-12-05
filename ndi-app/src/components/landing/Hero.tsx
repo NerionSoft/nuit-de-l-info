@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Play, ArrowRight, Terminal, Folder, Settings } from 'lucide-react';
+import { Play, ArrowRight, Terminal, Folder, Settings, GraduationCap } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 export function Hero() {
@@ -66,20 +66,20 @@ export function Hero() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Link href="/desktop">
+              <Link href="/desktop?tutorial=true">
                 <Button variant="ubuntu" size="lg" className="w-full sm:w-auto">
-                  <Play className="w-5 h-5 mr-2" />
-                  Lancer le simulateur
+                  <GraduationCap className="w-5 h-5 mr-2" />
+                  Commencer le tutoriel
                 </Button>
               </Link>
-              <Link href="#learn">
+              <Link href="/desktop">
                 <Button
                   variant="secondary"
                   size="lg"
                   className="w-full sm:w-auto"
                 >
-                  En savoir plus
-                  <ArrowRight className="w-5 h-5 ml-2" />
+                  <Play className="w-5 h-5 mr-2" />
+                  Mode libre
                 </Button>
               </Link>
             </div>

@@ -7,7 +7,10 @@ export type AppType =
   | 'text-editor'
   | 'calculator'
   | 'browser'
-  | 'trash';
+  | 'trash'
+  | 'writer'
+  | 'calc'
+  | 'impress';
 
 export interface Position {
   x: number;
@@ -77,6 +80,9 @@ export const DEFAULT_WINDOW_SIZES: Record<AppType, Size> = {
   calculator: { width: 300, height: 450 },
   browser: { width: 900, height: 600 },
   trash: { width: 600, height: 400 },
+  writer: { width: 850, height: 600 },
+  calc: { width: 900, height: 550 },
+  impress: { width: 950, height: 650 },
 };
 
 export const APP_TITLES: Record<AppType, string> = {
@@ -87,4 +93,7 @@ export const APP_TITLES: Record<AppType, string> = {
   calculator: 'Calculator',
   browser: 'Firefox',
   trash: 'Trash',
+  writer: 'LibreOffice Writer',
+  calc: 'LibreOffice Calc',
+  impress: 'LibreOffice Impress',
 };

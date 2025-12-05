@@ -29,10 +29,23 @@ interface DesktopStore {
 
 const generateId = () => Math.random().toString(36).substring(2, 9);
 
-const getRandomPosition = (): Position => ({
-  x: 50 + Math.random() * 200,
-  y: 50 + Math.random() * 100,
-});
+const getRandomPosition = (appSize?: Size): Position => {
+  // Must check if we're in browser
+  if (typeof window === 'undefined') {
+    return { x: 400, y: 100 };
+  }
+
+  const screenWidth = window.innerWidth;
+  const windowWidth = appSize?.width || 600;
+
+  // Center the window horizontally
+  const centerX = (screenWidth - windowWidth) / 2;
+
+  return {
+    x: Math.max(200, centerX) + Math.random() * 100,
+    y: 60 + Math.random() * 80,
+  };
+};
 
 export const useDesktopStore = create<DesktopStore>((set, get) => ({
   windows: [],
@@ -58,12 +71,13 @@ export const useDesktopStore = create<DesktopStore>((set, get) => ({
     }
 
     const id = generateId();
+    const size = DEFAULT_WINDOW_SIZES[app];
     const newWindow: WindowState = {
       id,
       title: APP_TITLES[app],
       app,
-      position: getRandomPosition(),
-      size: DEFAULT_WINDOW_SIZES[app],
+      position: getRandomPosition(size),
+      size,
       isMinimized: false,
       isMaximized: false,
       zIndex: nextZIndex,

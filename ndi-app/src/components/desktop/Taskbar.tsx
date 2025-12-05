@@ -12,6 +12,9 @@ import {
   Wifi,
   Volume2,
   Battery,
+  FileType,
+  Table2,
+  Presentation,
 } from 'lucide-react';
 import { useDesktopStore } from '@/stores/desktopStore';
 import type { AppType } from '@/types/desktop';
@@ -24,6 +27,9 @@ const appIcons: Record<AppType, React.ComponentType<{ className?: string }>> = {
   'text-editor': FileText,
   calculator: Grid3X3,
   trash: Folder,
+  writer: FileType,
+  calc: Table2,
+  impress: Presentation,
 };
 
 export function Taskbar() {

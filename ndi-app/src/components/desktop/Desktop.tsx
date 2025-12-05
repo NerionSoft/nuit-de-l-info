@@ -20,6 +20,9 @@ const desktopIcons: DesktopIconData[] = [
   { id: '4', label: 'Files', icon: 'folder', app: 'file-manager' },
   { id: '5', label: 'Firefox', icon: 'browser', app: 'browser' },
   { id: '6', label: 'Settings', icon: 'settings', app: 'settings' },
+  { id: '7', label: 'Writer', icon: 'writer', app: 'writer' },
+  { id: '8', label: 'Calc', icon: 'calc', app: 'calc' },
+  { id: '9', label: 'Impress', icon: 'impress', app: 'impress' },
 ];
 
 export function Desktop() {

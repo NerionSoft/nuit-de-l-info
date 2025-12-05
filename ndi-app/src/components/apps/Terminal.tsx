@@ -3,10 +3,13 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { VirtualFileSystem } from '@/lib/fileSystem';
 import { executeCommand, getAutocompleteSuggestions } from '@/lib/terminal';
+import { useTutorialStore } from '@/stores/tutorialStore';
+import { useDesktopStore } from '@/stores/desktopStore';
 import type { TerminalLine } from '@/types/desktop';
 
 interface TerminalProps {
   windowId: string;
+  onCommandExecuted?: (command: string, output: string) => void;
 }
 
 // Create a single instance per terminal window
@@ -19,8 +22,10 @@ function getFileSystem(windowId: string): VirtualFileSystem {
   return fsInstances.get(windowId)!;
 }
 
-export function Terminal({ windowId }: TerminalProps) {
+export function Terminal({ windowId, onCommandExecuted }: TerminalProps) {
   const fs = getFileSystem(windowId);
+  const { isActive: isTutorialActive, validateCommand, phase } = useTutorialStore();
+  const openWindow = useDesktopStore((state) => state.openWindow);
   const [lines, setLines] = useState<TerminalLine[]>([
     {
       id: 'welcome',
@@ -80,8 +85,23 @@ Type \x1b[32mhelp\x1b[0m to see available commands.
     // Execute command
     const result = executeCommand(input, fs);
 
+    // Open app if command requests it
+    if (result.openApp) {
+      openWindow(result.openApp);
+    }
+
     // Update path after command (might have changed with cd)
     setCurrentPath(fs.getCurrentPath());
+
+    // Tutorial validation
+    if (isTutorialActive && phase === 'terminal') {
+      validateCommand(input);
+    }
+
+    // Callback for external listeners
+    if (onCommandExecuted) {
+      onCommandExecuted(input, result.output || '');
+    }
 
     // Add to history
     if (input) {

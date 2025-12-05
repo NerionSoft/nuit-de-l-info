@@ -1,9 +1,11 @@
 import { VirtualFileSystem } from './fileSystem';
+import type { AppType } from '@/types/desktop';
 
 export interface CommandResult {
   output: string;
   isError?: boolean;
   clear?: boolean;
+  openApp?: AppType;
 }
 
 type CommandHandler = (args: string[], fs: VirtualFileSystem) => CommandResult;
@@ -51,26 +53,38 @@ const COWSAY = (message: string) => {
 const commands: Record<string, CommandHandler> = {
   help: () => ({
     output: `
-\x1b[1mAvailable commands:\x1b[0m
+\x1b[1mCommandes disponibles:\x1b[0m
 
-  \x1b[32mls\x1b[0m [path]        List directory contents
-  \x1b[32mcd\x1b[0m <path>        Change directory
-  \x1b[32mpwd\x1b[0m              Print working directory
-  \x1b[32mcat\x1b[0m <file>       Display file contents
-  \x1b[32mecho\x1b[0m <text>      Display text
-  \x1b[32mmkdir\x1b[0m <dir>      Create directory
-  \x1b[32mtouch\x1b[0m <file>     Create empty file
-  \x1b[32mrm\x1b[0m <file>        Remove file (use -r for directories)
-  \x1b[32mclear\x1b[0m            Clear the terminal
-  \x1b[32mwhoami\x1b[0m           Display current user
-  \x1b[32mdate\x1b[0m             Display current date
-  \x1b[32muname\x1b[0m [-a]       Display system information
-  \x1b[32mneofetch\x1b[0m         Display system info with ASCII art
-  \x1b[32mcowsay\x1b[0m <text>    Make a cow say something
-  \x1b[32mhistory\x1b[0m          Show command history
-  \x1b[32mexit\x1b[0m             Close terminal (doesn't work here 😉)
+\x1b[36m── Navigation ──\x1b[0m
+  \x1b[32mls\x1b[0m [path]        Lister le contenu d'un dossier
+  \x1b[32mcd\x1b[0m <path>        Changer de dossier
+  \x1b[32mpwd\x1b[0m              Afficher le chemin actuel
 
-\x1b[33mTip:\x1b[0m Use Tab for auto-completion, ↑/↓ for history
+\x1b[36m── Fichiers ──\x1b[0m
+  \x1b[32mcat\x1b[0m <file>       Afficher le contenu d'un fichier
+  \x1b[32mecho\x1b[0m <text>      Afficher du texte
+  \x1b[32mmkdir\x1b[0m <dir>      Créer un dossier
+  \x1b[32mtouch\x1b[0m <file>     Créer un fichier vide
+  \x1b[32mrm\x1b[0m <file>        Supprimer un fichier (-r pour dossiers)
+
+\x1b[36m── Système ──\x1b[0m
+  \x1b[32mwhoami\x1b[0m           Afficher l'utilisateur actuel
+  \x1b[32mdate\x1b[0m             Afficher la date
+  \x1b[32muname\x1b[0m [-a]       Infos système
+  \x1b[32mneofetch\x1b[0m         Infos système avec ASCII art
+
+\x1b[36m── LibreOffice (Suite bureautique libre) ──\x1b[0m
+  \x1b[32mlibreoffice\x1b[0m      Lancer LibreOffice
+  \x1b[32mlowriter\x1b[0m         Lancer Writer (traitement de texte)
+  \x1b[32mlocalc\x1b[0m           Lancer Calc (tableur)
+  \x1b[32mloimpress\x1b[0m        Lancer Impress (présentations)
+
+\x1b[36m── Autres ──\x1b[0m
+  \x1b[32mclear\x1b[0m            Effacer le terminal
+  \x1b[32mcowsay\x1b[0m <text>    Faire parler une vache
+  \x1b[32mhistory\x1b[0m          Historique des commandes
+
+\x1b[33mAstuce:\x1b[0m Tab = auto-complétion, ↑/↓ = historique
 `,
   }),
 
@@ -281,6 +295,51 @@ Swap:       2097152           0     2097152`,
     }
     return { output: `${cmd} not found`, isError: true };
   },
+
+  libreoffice: (args) => {
+    const app = args.find(a => a.startsWith('--'));
+    const appName = app?.replace('--', '') || 'writer';
+
+    const validApps: Record<string, { label: string; app: AppType }> = {
+      'writer': { label: 'Writer (Traitement de texte)', app: 'writer' },
+      'calc': { label: 'Calc (Tableur)', app: 'calc' },
+      'impress': { label: 'Impress (Présentations)', app: 'impress' },
+    };
+
+    const appInfo = validApps[appName];
+    if (appInfo) {
+      return {
+        output: `\x1b[32m✓ Lancement de LibreOffice ${appInfo.label}...\x1b[0m`,
+        openApp: appInfo.app,
+      };
+    }
+
+    return {
+      output: `Usage: libreoffice [--writer|--calc|--impress] [fichier]
+
+Applications disponibles:
+  --writer    Traitement de texte (comme Word)
+  --calc      Tableur (comme Excel)
+  --impress   Présentations (comme PowerPoint)
+
+Exemple: libreoffice --writer rapport.odt`,
+    };
+  },
+
+  lowriter: () => ({
+    output: `\x1b[32m✓ Lancement de LibreOffice Writer...\x1b[0m`,
+    openApp: 'writer' as AppType,
+  }),
+
+  localc: () => ({
+    output: `\x1b[32m✓ Lancement de LibreOffice Calc...\x1b[0m`,
+    openApp: 'calc' as AppType,
+  }),
+
+  loimpress: () => ({
+    output: `\x1b[32m✓ Lancement de LibreOffice Impress...\x1b[0m`,
+    openApp: 'impress' as AppType,
+  }),
 };
 
 export function executeCommand(

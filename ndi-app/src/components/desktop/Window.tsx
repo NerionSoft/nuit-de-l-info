@@ -128,7 +128,12 @@ export function Window({ window: win, children }: WindowProps) {
           </div>
 
           {/* Content */}
-          <div className="flex-1 overflow-hidden bg-[#300A24]">{children}</div>
+          <div
+            className="flex-1 overflow-hidden bg-[#300A24]"
+            onMouseDown={(e) => e.stopPropagation()}
+          >
+            {children}
+          </div>
         </motion.div>
       </Rnd>
     </AnimatePresence>
