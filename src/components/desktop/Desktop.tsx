@@ -18,6 +18,8 @@ const leftColumnIcons: DesktopIconData[] = [
   { id: '1', label: 'Home', icon: 'folder-home', app: 'file-manager' },
   { id: '2', label: 'Trash', icon: 'trash', app: 'trash' },
   { id: '11', label: 'Dashboard', icon: 'dashboard', app: 'dashboard' },
+  { id: '12', label: 'RSE', icon: 'rse-dashboard', app: 'rse-dashboard' },
+  { id: '13', label: 'Privacy', icon: 'privacy-center', app: 'privacy-center' },
   { id: '3', label: 'Terminal', icon: 'terminal', app: 'terminal' },
   { id: '4', label: 'Files', icon: 'folder', app: 'file-manager' },
   { id: '5', label: 'Firefox', icon: 'browser', app: 'browser' },

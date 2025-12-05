@@ -17,6 +17,8 @@ import {
   Presentation,
   Activity,
   BarChart3,
+  Sparkles,
+  Shield,
 } from 'lucide-react';
 import { useDesktopStore } from '@/stores/desktopStore';
 import type { AppType } from '@/types/desktop';
@@ -34,6 +36,8 @@ const appIcons: Record<AppType, React.ComponentType<{ className?: string }>> = {
   impress: Presentation,
   'system-monitor': Activity,
   dashboard: BarChart3,
+  'rse-dashboard': Sparkles,
+  'privacy-center': Shield,
 };
 
 export function Taskbar() {

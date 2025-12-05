@@ -21,6 +21,7 @@ import {
   Calendar,
 } from 'lucide-react';
 import { useDesktopStore } from '@/stores/desktopStore';
+import { AccessibilityPanel } from '@/components/AccessibilityPanel';
 
 interface SettingsProps {
   windowId: string;
@@ -135,6 +136,9 @@ export function Settings({ windowId }: SettingsProps) {
           </div>
         );
 
+      case 'accessibility':
+        return <AccessibilityPanel />;
+
       case 'about':
         return (
           <div className="p-6">
@@ -142,11 +146,11 @@ export function Settings({ windowId }: SettingsProps) {
 
             <div className="flex items-start gap-6 mb-8">
               <div className="w-24 h-24 bg-gradient-to-br from-[#3B82F6] to-[#1E40AF] rounded-full flex items-center justify-center">
-                <span className="text-4xl font-bold">U</span>
+                <span className="text-4xl font-bold">L</span>
               </div>
               <div>
-                <h3 className="text-2xl font-bold">Linux Simulator</h3>
-                <p className="text-white/60">24.04 LTS (Noble Numbat)</p>
+                <h3 className="text-2xl font-bold">LearnLinux Simulator</h3>
+                <p className="text-white/60">1.0.0 (Education Edition)</p>
               </div>
             </div>
 

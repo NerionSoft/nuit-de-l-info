@@ -14,6 +14,8 @@ import {
   Presentation,
   Activity,
   BarChart3,
+  Sparkles,
+  Shield,
 } from 'lucide-react';
 import { useDesktopStore } from '@/stores/desktopStore';
 import { useTutorialStore } from '@/stores/tutorialStore';
@@ -39,6 +41,8 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   impress: Presentation,
   'system-monitor': Activity,
   dashboard: BarChart3,
+  'rse-dashboard': Sparkles,
+  'privacy-center': Shield,
 };
 
 // Map app types to tutorial target elements

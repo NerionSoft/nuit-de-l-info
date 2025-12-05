@@ -6,7 +6,11 @@ import { executeCommand, getAutocompleteSuggestions } from '@/lib/terminal';
 import { useTutorialStore } from '@/stores/tutorialStore';
 import { useDesktopStore } from '@/stores/desktopStore';
 import { useMetricsStore } from '@/stores/metricsStore';
+import { useRSEStore } from '@/stores/rseStore';
+import { isGreenCommand, getGreenSuggestion } from '@/utils/greenCommands';
+import { GreenCommandTip } from '@/components/GreenCommandTip';
 import type { TerminalLine } from '@/types/desktop';
+import type { GreenCommandSuggestion } from '@/utils/greenCommands';
 
 interface TerminalProps {
   windowId: string;
@@ -30,6 +34,9 @@ export function Terminal({ windowId, onCommandExecuted }: TerminalProps) {
   const incrementCommands = useMetricsStore((state) => state.incrementCommands);
   const incrementFiles = useMetricsStore((state) => state.incrementFiles);
   const incrementFolders = useMetricsStore((state) => state.incrementFolders);
+  const incrementGreenCommands = useRSEStore((state) => state.incrementGreenCommands);
+  const increaseCarbonAwareness = useRSEStore((state) => state.increaseCarbonAwareness);
+  const [greenSuggestion, setGreenSuggestion] = useState<GreenCommandSuggestion | null>(null);
   const [lines, setLines] = useState<TerminalLine[]>([
     {
       id: 'welcome',
@@ -96,6 +103,19 @@ Type \x1b[32mhelp\x1b[0m to see available commands.
       incrementFiles();
     } else if (cmd === 'mkdir') {
       incrementFolders();
+    }
+
+    // Check if command is green and track it
+    if (isGreenCommand(input)) {
+      incrementGreenCommands();
+      increaseCarbonAwareness(2); // +2% par commande verte
+    } else {
+      // Check if there's a green suggestion
+      const suggestion = getGreenSuggestion(input);
+      if (suggestion) {
+        setGreenSuggestion(suggestion);
+        increaseCarbonAwareness(1); // +1% pour avoir vu une suggestion
+      }
     }
 
     // Open app if command requests it
@@ -279,6 +299,16 @@ Type \x1b[32mhelp\x1b[0m to see available commands.
       onClick={focusInput}
       className="h-full overflow-auto p-3 font-mono text-sm bg-[#0F172A] text-white cursor-text"
     >
+      {/* Green Command Suggestion */}
+      {greenSuggestion && (
+        <div className="mb-3">
+          <GreenCommandTip
+            suggestion={greenSuggestion}
+            onDismiss={() => setGreenSuggestion(null)}
+          />
+        </div>
+      )}
+
       {/* Output Lines */}
       {lines.map((line) => (
         <div key={line.id} className="whitespace-pre-wrap break-all">

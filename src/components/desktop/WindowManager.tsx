@@ -14,6 +14,8 @@ import { Calc } from '@/components/apps/Calc';
 import { Impress } from '@/components/apps/Impress';
 import { SystemMonitor } from '@/components/apps/SystemMonitor';
 import { Dashboard } from '@/components/apps/Dashboard';
+import { RSEDashboard } from '@/components/apps/RSEDashboard';
+import { PrivacyCenter } from '@/components/apps/PrivacyCenter';
 import type { AppType } from '@/types/desktop';
 
 const AppComponents: Record<AppType, React.ComponentType<{ windowId: string }>> = {
@@ -29,6 +31,8 @@ const AppComponents: Record<AppType, React.ComponentType<{ windowId: string }>> 
   impress: Impress,
   'system-monitor': SystemMonitor,
   dashboard: Dashboard,
+  'rse-dashboard': RSEDashboard,
+  'privacy-center': PrivacyCenter,
 };
 
 export function WindowManager() {
