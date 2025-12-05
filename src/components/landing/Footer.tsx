@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { Github, Twitter, Heart } from 'lucide-react';
 
@@ -11,11 +12,15 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-[#3B82F6] to-[#1E40AF] rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">U</span>
-              </div>
+              <Image
+                src="/mascotte.png"
+                alt="LearnLinux mascotte"
+                width={32}
+                height={32}
+                className="rounded-lg"
+              />
               <span className="font-bold text-xl">
-                Linux<span className="text-[#3B82F6]">Sim</span>
+                Learn<span className="text-[#3B82F6]">Linux</span>
               </span>
             </Link>
             <p className="text-white/60 max-w-sm">
@@ -92,7 +97,7 @@ export function Footer() {
         {/* Bottom */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-white/60 text-sm">
-            © 2024 LinuxSim. Fait avec{' '}
+            © 2025 LearnLinux. Fait avec{' '}
             <Heart className="w-4 h-4 inline text-[#3B82F6]" /> pour la Nuit de
             l&apos;Info.
           </p>

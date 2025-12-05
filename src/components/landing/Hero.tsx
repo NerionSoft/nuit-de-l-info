@@ -161,7 +161,7 @@ export function Hero() {
                   </div>
                   <div className="p-3 font-mono text-xs">
                     <div className="text-green-400">
-                      user@linux-sim:~$
+                      user@learn-linux:~$
                     </div>
                     <div className="text-white/90 mt-1">
                       <span className="text-green-400">$</span> ls -la
@@ -172,7 +172,7 @@ export function Hero() {
                     <div className="text-white/70">drwxr-xr-x Downloads</div>
                     <div className="text-white/70">drwxr-xr-x Pictures</div>
                     <div className="text-green-400 mt-1 animate-pulse">
-                      user@linux-sim:~$ _
+                      user@learn-linux:~$ _
                     </div>
                   </div>
                 </motion.div>

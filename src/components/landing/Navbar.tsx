@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
@@ -14,11 +15,15 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-[#3B82F6] to-[#1E40AF] rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">U</span>
-            </div>
+            <Image
+              src="/mascotte.png"
+              alt="LearnLinux mascotte"
+              width={32}
+              height={32}
+              className="rounded-lg"
+            />
             <span className="font-bold text-xl text-[#151515]">
-              Linux<span className="text-[#3B82F6]">Sim</span>
+              Learn<span className="text-[#3B82F6]">Linux</span>
             </span>
           </Link>
 
