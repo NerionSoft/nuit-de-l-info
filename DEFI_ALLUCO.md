@@ -83,9 +83,10 @@ Pour encourager l'apprentissage durable :
 
 #### 3. MetricsTracker (`MetricsTracker.tsx`)
 ```typescript
-- Tracking passif du temps passé
-- Mise à jour automatique toutes les 10 secondes
-- Sauvegarde à la fermeture de session
+- Tracking précis du temps passé (mise à jour chaque seconde)
+- Calcul du temps réel passé sur la plateforme
+- Mise à jour de l'activité quotidienne en temps réel
+- Sauvegarde automatique à la fermeture de session
 ```
 
 #### 4. Intégration Terminal

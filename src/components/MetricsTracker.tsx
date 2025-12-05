@@ -9,32 +9,49 @@ export function MetricsTracker() {
   const commandsExecuted = useMetricsStore((state) => state.metrics.commandsExecuted);
 
   const startTime = useRef(Date.now());
+  const lastSaveTime = useRef(Date.now());
   const lastCommandCount = useRef(0);
   const intervalRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   useEffect(() => {
-    // Tracker de temps toutes les 10 secondes
-    intervalRef.current = setInterval(() => {
-      addTimeSpent(10);
+    // Reset le temps de départ
+    startTime.current = Date.now();
+    lastSaveTime.current = Date.now();
+    lastCommandCount.current = commandsExecuted;
 
-      // Mise à jour de l'activité quotidienne toutes les minutes
-      const commandsDelta = commandsExecuted - lastCommandCount.current;
-      if (commandsDelta > 0) {
-        updateDailyActivity(commandsDelta, 10);
-        lastCommandCount.current = commandsExecuted;
+    // Tracker de temps toutes les secondes (plus précis)
+    intervalRef.current = setInterval(() => {
+      const now = Date.now();
+      const elapsedSeconds = Math.floor((now - lastSaveTime.current) / 1000);
+
+      if (elapsedSeconds > 0) {
+        addTimeSpent(elapsedSeconds);
+        lastSaveTime.current = now;
+
+        // Mise à jour de l'activité quotidienne
+        const commandsDelta = commandsExecuted - lastCommandCount.current;
+        if (commandsDelta > 0 || elapsedSeconds >= 60) {
+          updateDailyActivity(commandsDelta, elapsedSeconds);
+          lastCommandCount.current = commandsExecuted;
+        }
       }
-    }, 10000); // 10 secondes
+    }, 1000); // Toutes les secondes
 
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
 
-      // Sauvegarder le temps final à la fermeture
-      const finalTime = Math.floor((Date.now() - startTime.current) / 1000);
-      addTimeSpent(finalTime);
+      // Sauvegarder le temps restant à la fermeture
+      const now = Date.now();
+      const finalSeconds = Math.floor((now - lastSaveTime.current) / 1000);
+      if (finalSeconds > 0) {
+        addTimeSpent(finalSeconds);
+        const commandsDelta = commandsExecuted - lastCommandCount.current;
+        updateDailyActivity(commandsDelta, finalSeconds);
+      }
     };
-  }, [addTimeSpent, updateDailyActivity, commandsExecuted]);
+  }, []); // Seulement au mount/unmount
 
   return null; // Ce composant ne rend rien
 }
