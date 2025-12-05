@@ -1,9 +1,8 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,86 +13,26 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-[#3B82F6] to-[#1E40AF] rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">U</span>
-            </div>
+            <Image
+              src="/mascotte.png"
+              alt="LearnLinux mascotte"
+              width={32}
+              height={32}
+              className="rounded-lg"
+            />
             <span className="font-bold text-xl text-[#151515]">
-              Linux<span className="text-[#3B82F6]">Sim</span>
+              Learn<span className="text-[#3B82F6]">Linux</span>
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            <Link
-              href="#features"
-              className="text-[#151515] hover:text-[#3B82F6] transition-colors font-medium"
-            >
-              Features
-            </Link>
-            <Link
-              href="#apps"
-              className="text-[#151515] hover:text-[#3B82F6] transition-colors font-medium"
-            >
-              Applications
-            </Link>
-            <Link
-              href="#learn"
-              className="text-[#151515] hover:text-[#3B82F6] transition-colors font-medium"
-            >
-              Learn
-            </Link>
-          </div>
-
           {/* CTA */}
-          <div className="hidden md:flex items-center gap-3">
-            <Link href="/desktop">
-              <Button variant="primary">Essayer maintenant</Button>
-            </Link>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-black/5"
+          <Link
+            href="/desktop?tutorial=true"
+            className="px-5 py-2.5 bg-[#3B82F6] hover:bg-[#2563EB] text-white rounded-lg font-medium transition-colors"
           >
-            {isMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
+            Commencer
+          </Link>
         </div>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-[#D0D1C9]">
-            <div className="flex flex-col gap-4">
-              <Link
-                href="#features"
-                className="text-[#151515] hover:text-[#3B82F6] transition-colors font-medium"
-              >
-                Features
-              </Link>
-              <Link
-                href="#apps"
-                className="text-[#151515] hover:text-[#3B82F6] transition-colors font-medium"
-              >
-                Applications
-              </Link>
-              <Link
-                href="#learn"
-                className="text-[#151515] hover:text-[#3B82F6] transition-colors font-medium"
-              >
-                Learn
-              </Link>
-              <Link href="/desktop">
-                <Button variant="primary" className="w-full">
-                  Essayer maintenant
-                </Button>
-              </Link>
-            </div>
-          </div>
-        )}
       </div>
     </nav>
   );
