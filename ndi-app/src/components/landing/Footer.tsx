@@ -12,14 +12,14 @@ export function Footer() {
           <div className="md:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-gradient-to-br from-[#E95420] to-[#772953] rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">U</span>
+                <span className="text-white font-bold text-lg">L</span>
               </div>
               <span className="font-bold text-xl">
-                Ubuntu<span className="text-[#E95420]">Sim</span>
+                Learn<span className="text-[#E95420]">Linux</span>
               </span>
             </Link>
             <p className="text-white/60 max-w-sm">
-              Un simulateur Ubuntu interactif pour apprendre Linux de manière
+              Un simulateur Linux interactif pour apprendre de manière
               ludique et sans risque. Parfait pour les débutants.
             </p>
           </div>
@@ -54,12 +54,12 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://ubuntu.com"
+                  href="https://linux.org"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white/60 hover:text-white transition-colors"
                 >
-                  Ubuntu Official
+                  Linux.org
                 </a>
               </li>
             </ul>
@@ -91,14 +91,60 @@ export function Footer() {
 
         {/* Bottom */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-white/60 text-sm">
-            © 2024 UbuntuSim. Fait avec{' '}
-            <Heart className="w-4 h-4 inline text-[#E95420]" /> pour la Nuit de
-            l&apos;Info.
-          </p>
-          <p className="text-white/40 text-sm">
-            Ubuntu est une marque déposée de Canonical Ltd.
-          </p>
+          <div className="flex flex-col items-center md:items-start gap-2">
+            <p className="text-white/60 text-sm">
+              © 2024 LearnLinux. Fait avec{' '}
+              <Heart className="w-4 h-4 inline text-[#E95420]" /> pour la Nuit de
+              l&apos;Info.
+            </p>
+            <p className="text-white/60 text-sm">
+              Créé par{' '}
+              <a
+                href="https://www.linkedin.com/in/bergeronludovic/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#E95420] hover:underline"
+              >
+                Ludovic Bergeron
+              </a>
+              ,{' '}
+              <a
+                href="https://www.linkedin.com/in/yoann-corgnet/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#E95420] hover:underline"
+              >
+                Yoann Corgnet
+              </a>
+              ,{' '}
+              <a
+                href="https://www.linkedin.com/in/antoine-przyplata-236544372/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#E95420] hover:underline"
+              >
+                Antoine Przyplata
+              </a>
+              ,{' '}
+              <a
+                href="https://www.linkedin.com/in/romainblanchot/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#E95420] hover:underline"
+              >
+                Romain Blanchot
+              </a>
+              {' '}et{' '}
+              <a
+                href="https://www.linkedin.com/in/thomas-letellier-a9670b395/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#E95420] hover:underline"
+              >
+                Thomas Letellier
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>

@@ -60,8 +60,8 @@ export function Hero() {
             </h1>
 
             <p className="text-lg md:text-xl text-[#6B6B6B] mb-8 max-w-xl mx-auto lg:mx-0">
-              Découvre Ubuntu dans ton navigateur. Un simulateur complet pour
-              apprendre les commandes Linux, explorer le système de fichiers et
+              Découvre Linux dans ton navigateur. Un simulateur complet pour
+              apprendre les commandes, explorer le système de fichiers et
               maîtriser le terminal.
             </p>
 
@@ -116,7 +116,7 @@ export function Hero() {
                 <div className="w-3 h-3 rounded-full bg-[#F5A623]" />
                 <div className="w-3 h-3 rounded-full bg-[#7ED321]" />
                 <span className="ml-4 text-white/80 text-sm">
-                  Ubuntu Simulator
+                  LearnLinux
                 </span>
               </div>
 
@@ -161,7 +161,7 @@ export function Hero() {
                   </div>
                   <div className="p-3 font-mono text-xs">
                     <div className="text-green-400">
-                      user@ubuntu-simulator:~$
+                      user@learnlinux:~$
                     </div>
                     <div className="text-white/90 mt-1">
                       <span className="text-green-400">$</span> ls -la
@@ -172,7 +172,7 @@ export function Hero() {
                     <div className="text-white/70">drwxr-xr-x Downloads</div>
                     <div className="text-white/70">drwxr-xr-x Pictures</div>
                     <div className="text-green-400 mt-1 animate-pulse">
-                      user@ubuntu-simulator:~$ _
+                      user@learnlinux:~$ _
                     </div>
                   </div>
                 </motion.div>

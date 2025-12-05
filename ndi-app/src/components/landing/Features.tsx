@@ -95,7 +95,7 @@ export function Features() {
             Tout ce dont tu as besoin pour apprendre Linux
           </h2>
           <p className="text-lg text-[#6B6B6B] max-w-2xl mx-auto">
-            Un environnement Ubuntu complet et interactif directement dans ton
+            Un environnement Linux complet et interactif directement dans ton
             navigateur
           </p>
         </motion.div>

@@ -60,11 +60,11 @@ const apps = [
             <div className="w-2 h-2 rounded-full bg-green-500" />
           </div>
           <div className="flex-1 bg-[#1E1E1E] rounded px-2 py-0.5 text-[10px] text-white/50">
-            ubuntu.com
+            linux.org
           </div>
         </div>
         <div className="p-2 bg-[#2C001E] text-center text-white/80 text-xs">
-          Ubuntu Home
+          Linux Home
         </div>
       </div>
     ),
@@ -140,7 +140,7 @@ export function AppShowcase() {
             Applications
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-[#151515] mb-4">
-            Des applications comme sur un vrai Ubuntu
+            Des applications comme sur un vrai système Linux
           </h2>
           <p className="text-lg text-[#6B6B6B] max-w-2xl mx-auto">
             Explore les applications essentielles de Linux dans un environnement

@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import Image from "next/image";
+
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,11 +16,15 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-[#E95420] to-[#772953] rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">U</span>
-            </div>
+            <Image
+              src="/Masquotte_learnlinux.png"
+              alt="masquotte"
+              width={24}
+              height={24}
+              className="rounded-full"
+            />
             <span className="font-bold text-xl text-[#151515]">
-              Ubuntu<span className="text-[#E95420]">Sim</span>
+              Learn<span className="text-[#E95420]">Linux</span>
             </span>
           </Link>
 
