@@ -21,6 +21,7 @@ const leftColumnIcons: DesktopIconData[] = [
   { id: '4', label: 'Files', icon: 'folder', app: 'file-manager' },
   { id: '5', label: 'Firefox', icon: 'browser', app: 'browser' },
   { id: '6', label: 'Settings', icon: 'settings', app: 'settings' },
+  { id: '11', label: 'Dashboard', icon: 'dashboard', app: 'dashboard' },
 ];
 
 // Colonne droite - LibreOffice + Outils

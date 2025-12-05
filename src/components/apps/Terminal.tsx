@@ -5,6 +5,7 @@ import { VirtualFileSystem } from '@/lib/fileSystem';
 import { executeCommand, getAutocompleteSuggestions } from '@/lib/terminal';
 import { useTutorialStore } from '@/stores/tutorialStore';
 import { useDesktopStore } from '@/stores/desktopStore';
+import { useMetricsStore } from '@/stores/metricsStore';
 import type { TerminalLine } from '@/types/desktop';
 
 interface TerminalProps {
@@ -26,6 +27,9 @@ export function Terminal({ windowId, onCommandExecuted }: TerminalProps) {
   const fs = getFileSystem(windowId);
   const { isActive: isTutorialActive, validateCommand, phase } = useTutorialStore();
   const openWindow = useDesktopStore((state) => state.openWindow);
+  const incrementCommands = useMetricsStore((state) => state.incrementCommands);
+  const incrementFiles = useMetricsStore((state) => state.incrementFiles);
+  const incrementFolders = useMetricsStore((state) => state.incrementFolders);
   const [lines, setLines] = useState<TerminalLine[]>([
     {
       id: 'welcome',
@@ -84,6 +88,15 @@ Type \x1b[32mhelp\x1b[0m to see available commands.
 
     // Execute command
     const result = executeCommand(input, fs);
+
+    // Track metrics
+    incrementCommands();
+    const cmd = input.split(' ')[0];
+    if (cmd === 'touch' || cmd === 'echo' || cmd === 'nano') {
+      incrementFiles();
+    } else if (cmd === 'mkdir') {
+      incrementFolders();
+    }
 
     // Open app if command requests it
     if (result.openApp) {

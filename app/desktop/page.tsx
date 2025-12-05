@@ -4,6 +4,7 @@ import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Desktop } from '@/components/desktop/Desktop';
 import { TutorialOverlay } from '@/components/tutorial';
+import { MetricsTracker } from '@/components/MetricsTracker';
 import { useTutorialStore } from '@/stores/tutorialStore';
 import { Monitor } from 'lucide-react';
 
@@ -27,7 +28,10 @@ function DesktopContent() {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
+      // Détecter uniquement les vrais appareils mobiles/tablettes
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isSmallScreen = window.innerWidth < 768; // Seuil pour mobile/tablette
+      setIsMobile(isTouchDevice && isSmallScreen);
     };
 
     checkMobile();
@@ -94,6 +98,7 @@ function DesktopContent() {
 
   return (
     <>
+      <MetricsTracker />
       <Desktop />
       <TutorialOverlay />
     </>

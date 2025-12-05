@@ -13,6 +13,7 @@ import { Writer } from '@/components/apps/Writer';
 import { Calc } from '@/components/apps/Calc';
 import { Impress } from '@/components/apps/Impress';
 import { SystemMonitor } from '@/components/apps/SystemMonitor';
+import { Dashboard } from '@/components/apps/Dashboard';
 import type { AppType } from '@/types/desktop';
 
 const AppComponents: Record<AppType, React.ComponentType<{ windowId: string }>> = {
@@ -27,6 +28,7 @@ const AppComponents: Record<AppType, React.ComponentType<{ windowId: string }>> 
   calc: Calc,
   impress: Impress,
   'system-monitor': SystemMonitor,
+  dashboard: Dashboard,
 };
 
 export function WindowManager() {

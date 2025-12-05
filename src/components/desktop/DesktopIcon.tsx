@@ -13,6 +13,7 @@ import {
   Table2,
   Presentation,
   Activity,
+  BarChart3,
 } from 'lucide-react';
 import { useDesktopStore } from '@/stores/desktopStore';
 import { useTutorialStore } from '@/stores/tutorialStore';
@@ -37,6 +38,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   calc: Table2,
   impress: Presentation,
   'system-monitor': Activity,
+  dashboard: BarChart3,
 };
 
 // Map app types to tutorial target elements

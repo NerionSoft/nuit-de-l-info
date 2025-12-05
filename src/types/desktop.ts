@@ -11,7 +11,8 @@ export type AppType =
   | 'writer'
   | 'calc'
   | 'impress'
-  | 'system-monitor';
+  | 'system-monitor'
+  | 'dashboard';
 
 export interface Position {
   x: number;
@@ -85,6 +86,7 @@ export const DEFAULT_WINDOW_SIZES: Record<AppType, Size> = {
   calc: { width: 900, height: 550 },
   impress: { width: 950, height: 650 },
   'system-monitor': { width: 1000, height: 700 },
+  dashboard: { width: 900, height: 650 },
 };
 
 export const APP_TITLES: Record<AppType, string> = {
@@ -99,4 +101,5 @@ export const APP_TITLES: Record<AppType, string> = {
   calc: 'LibreOffice Calc',
   impress: 'LibreOffice Impress',
   'system-monitor': 'System Monitor',
+  dashboard: 'Tableau de Bord Écologique',
 };
