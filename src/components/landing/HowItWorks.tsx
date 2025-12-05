@@ -1,36 +1,30 @@
 'use client';
 
+import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { MousePointer, Terminal, Sparkles } from 'lucide-react';
 
 const steps = [
   {
-    icon: MousePointer,
-    step: '01',
-    title: 'Clique sur "Lancer"',
-    description:
-      'Pas besoin de télécharger ou d\'installer quoi que ce soit. Un simple clic suffit.',
+    step: '1',
+    title: 'Clique sur Commencer',
+    description: 'Pas besoin de telecharger quoi que ce soit.',
   },
   {
-    icon: Terminal,
-    step: '02',
-    title: 'Explore Linux',
-    description:
-      'Ouvre le terminal, navigue dans les fichiers, lance des applications comme sur un vrai Linux.',
+    step: '2',
+    title: 'Suis le tutoriel',
+    description: 'Apprends les bases avec un guide interactif.',
   },
   {
-    icon: Sparkles,
-    step: '03',
-    title: 'Apprends en pratiquant',
-    description:
-      'Tape des commandes, crée des fichiers, personnalise ton environnement. Tout est permis !',
+    step: '3',
+    title: 'Pratique librement',
+    description: 'Explore et experimente sans limites.',
   },
 ];
 
 export function HowItWorks() {
   return (
-    <section id="learn" className="py-20 px-4 bg-[#0F172A] text-white">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-24 px-4 bg-[#0F172A] text-white">
+      <div className="max-w-4xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -38,50 +32,41 @@ export function HowItWorks() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <span className="inline-block px-4 py-1 bg-white/10 text-white/90 rounded-full text-sm font-medium mb-4">
-            Comment ça marche
-          </span>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Commence en 3 étapes simples
+            Pret en 3 etapes
           </h2>
-          <p className="text-lg text-white/70 max-w-2xl mx-auto">
-            Aucune connaissance technique requise. Commence ton voyage Linux
-            maintenant.
+          <p className="text-lg text-white/60 max-w-xl mx-auto">
+            Commence ton apprentissage Linux en quelques secondes
           </p>
         </motion.div>
 
         {/* Steps */}
-        <div className="grid md:grid-cols-3 gap-8 relative">
-          {/* Connection Line */}
-          <div className="hidden md:block absolute top-16 left-1/6 right-1/6 h-0.5 bg-gradient-to-r from-[#3B82F6] via-[#1E40AF] to-[#1E3A8A]" />
+        <div className="relative">
+          {/* Connection line */}
+          <div className="hidden md:block absolute top-8 left-[calc(16.67%+1rem)] right-[calc(16.67%+1rem)] h-px bg-gradient-to-r from-[#3B82F6] via-[#3B82F6] to-[#3B82F6]" />
 
-          {steps.map((step, index) => {
-            const Icon = step.icon;
-            return (
+          <div className="grid md:grid-cols-3 gap-8">
+            {steps.map((step, index) => (
               <motion.div
                 key={step.step}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.2 }}
+                transition={{ delay: index * 0.15 }}
                 className="relative text-center"
               >
-                {/* Step Number */}
-                <div className="relative inline-flex items-center justify-center w-32 h-32 mb-6">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#3B82F6] to-[#1E40AF] rounded-full opacity-20" />
-                  <div className="relative w-24 h-24 bg-gradient-to-br from-[#3B82F6] to-[#1E40AF] rounded-full flex items-center justify-center">
-                    <Icon className="w-10 h-10 text-white" />
-                  </div>
-                  <span className="absolute -top-2 -right-2 w-8 h-8 bg-white text-[#0F172A] rounded-full flex items-center justify-center font-bold text-sm">
+                {/* Step number */}
+                <div className="relative inline-flex items-center justify-center w-16 h-16 mb-6">
+                  <div className="w-16 h-16 bg-[#3B82F6] rounded-full flex items-center justify-center text-2xl font-bold">
                     {step.step}
-                  </span>
+                  </div>
                 </div>
 
-                <h3 className="text-xl font-semibold mb-3">{step.title}</h3>
-                <p className="text-white/70">{step.description}</p>
+                <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
+                <p className="text-white/60">{step.description}</p>
               </motion.div>
-            );
-          })}
+            ))}
+          </div>
         </div>
 
         {/* CTA */}
@@ -91,13 +76,15 @@ export function HowItWorks() {
           viewport={{ once: true }}
           className="text-center mt-16"
         >
-          <a
-            href="/desktop"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-[#3B82F6] hover:bg-[#2563EB] rounded-lg font-semibold text-lg transition-colors"
+          <Link
+            href="/desktop?tutorial=true"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-white text-[#0F172A] hover:bg-white/90 rounded-xl font-semibold text-lg transition-colors"
           >
-            <Terminal className="w-5 h-5" />
-            Commencer maintenant
-          </a>
+            Commencer le tutoriel
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </Link>
         </motion.div>
       </div>
     </section>
