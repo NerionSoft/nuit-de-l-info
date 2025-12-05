@@ -13,15 +13,26 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'LinuxSim - Simulateur Linux Interactif',
+  title: {
+    default: 'Learning Linux : Apprends Linux en jouant',
+    template: '%s | Learning Linux',
+  },
   description:
-    'Apprends Linux de manière interactive avec notre simulateur Linux. Terminal, gestionnaire de fichiers, et plus encore - directement dans ton navigateur.',
-  keywords: ['Linux', 'Simulateur', 'Terminal', 'Apprentissage', 'Éducation'],
-  authors: [{ name: 'Nuit de l\'Info' }],
+    'Plateforme interactive pour apprendre Linux avec une simulation complète dans le navigateur.',
+  keywords: ['Linux', 'Simulateur', 'Terminal', 'Apprentissage', 'Éducation', 'Commandes Linux'],
+  authors: [{ name: "Nuit de l'Info" }],
   openGraph: {
-    title: 'LinuxSim - Simulateur Linux Interactif',
-    description: 'Apprends Linux de manière interactive avec notre simulateur Linux.',
+    title: 'Learning Linux : Apprends Linux en jouant',
+    description:
+      'Plateforme interactive pour apprendre Linux avec une simulation complète dans le navigateur.',
     type: 'website',
+    locale: 'fr_FR',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Learning Linux : Apprends Linux en jouant',
+    description:
+      'Plateforme interactive pour apprendre Linux avec une simulation complète dans le navigateur.',
   },
 };
 
