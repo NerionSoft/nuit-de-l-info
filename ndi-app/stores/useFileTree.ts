@@ -1,25 +1,28 @@
 import { create } from "zustand"
 import { nanoid } from "nanoid"
-import { FileNode } from "@/types/file"
 import { persist, createJSONStorage } from "zustand/middleware"
+import { FileNode } from "@/types/file"
 
-type State = {
-  root: FileNode
+//
+// TYPES
+//
+type Context = {
+  processId: number
   currentPath: string[]
   currentNode: FileNode | null
   selectedNodeId: string | null
 }
 
-type Actions = {
-  help: (args: string[]) => string
-  cd: (args: string[]) => string | void
-  ls: (args: string[]) => string | FileNode[]
-  mkdir: (args: string[]) => string | void
-  touch: (args: string[]) => string | void
-  rename: (args: string[]) => string | void
-  rm: (args: string[]) => string | void
-  rmdir: (args: string[]) => string | void
-  cat: (args: string[]) => string
+type BoundActions = {
+  help: (args?: string[]) => string
+  cd: (args?: string[]) => string | void
+  ls: (args?: string[]) => string | FileNode[]
+  mkdir: (args?: string[]) => string | void
+  touch: (args?: string[]) => string | void
+  rename: (args?: string[]) => string | void
+  rm: (args?: string[]) => string | void
+  rmdir: (args?: string[]) => string | void
+  cat: (args?: string[]) => string
 
   writeFile: (name: string, content: string) => void
   getNodeAtPath: (path: string[]) => FileNode | null
@@ -28,36 +31,76 @@ type Actions = {
   selectNode: (id: string | null) => void
 }
 
+type Actions = {
+  // internal (pid aware)
+  help: (pid: number, args?: string[]) => string
+  cd: (pid: number, args?: string[]) => string | void
+  ls: (pid: number, args?: string[]) => string | FileNode[]
+  mkdir: (pid: number, args?: string[]) => string | void
+  touch: (pid: number, args?: string[]) => string | void
+  rename: (pid: number, args?: string[]) => string | void
+  rm: (pid: number, args?: string[]) => string | void
+  rmdir: (pid: number, args?: string[]) => string | void
+  cat: (pid: number, args?: string[]) => string
+
+  writeFile: (pid: number, name: string, content: string) => void
+  getNodeAtPath: (pid: number, path: string[]) => FileNode | null
+  getCurrentDirectory: (pid: number) => FileNode
+  selectNode: (pid: number, id: string | null) => void
+}
+
+type State = {
+  root: FileNode
+  contexts: Context[]
+
+  pid_counter: number
+  createContext: () => Context
+  useContext: (pid: number) => BoundActions
+}
+
+//
+// HELPERS
+//
 const getNodeAtPathHelper = (root: FileNode, path: string[]): FileNode | null => {
-  let node = root
+  const node = root
   for (const part of path) {
     if (node.type !== "directory") return null
-    const next = node.children?.find(c => c.name === part)
-    if (!next) return null
-    node = next
+    return node.children?.find(c => c.name === part) ?? null
   }
   return node
 }
 
 const clone = <T,>(obj: T): T => structuredClone(obj)
 
+//
+// STORE
+//
 export const useFileTree = create<State & Actions>()(
   persist(
     (set, get) => ({
+      //
+      // ROOT FS + MULTI CONTEXT
+      //
       root: {
         id: nanoid(),
         name: "/",
         type: "directory",
         children: []
       },
-      currentPath: [],
-      currentNode: null,
-      selectedNodeId: null,
+      pid_counter: 1,
+      contexts: [
+        {
+          processId: 1,
+          currentPath: [],
+          currentNode: null,
+          selectedNodeId: null
+        }
+      ],
 
       //
       // HELP
       //
-      help: (args: string[]) => {
+      help: (pid, args = []) => {
         const commands = {
           help:  "help [cmd]                — show help",
           cd:    "cd <path>                 — change directory",
@@ -79,42 +122,62 @@ export const useFileTree = create<State & Actions>()(
       },
 
       //
-      // COMMANDS
+      // INTERNALLY PID-AWARE GETTERS
       //
-      cd: (args) => {
-        if (args.length < 1) return get().help(["cd"])
+      getNodeAtPath: (pid, path) => {
+        const { root } = get()
+        return getNodeAtPathHelper(root, path)
+      },
+
+      getCurrentDirectory: (pid) => {
+        const { contexts, root } = get()
+        const ctx = contexts.find(c => c.processId === pid)!
+        return get().getNodeAtPath(pid, ctx.currentPath) ?? root
+      },
+
+      //
+      // COMMANDS (PID aware)
+      //
+      cd: (pid, args = []) => {
+        const ctx = get().contexts.find(c => c.processId === pid)!
+        if (args.length < 1) return get().help(pid, ["cd"])
+
         const pathStr = args[0]
         const parts = pathStr.split("/").filter(Boolean)
 
         const newPath =
           pathStr.startsWith("/")
             ? parts
-            : [...get().currentPath, ...parts]
+            : [...ctx.currentPath, ...parts]
 
-        const node = get().getNodeAtPath(newPath)
+        const node = get().getNodeAtPath(pid, newPath)
         if (!node || node.type !== "directory") return "cd: not a directory"
 
-        set({ currentPath: newPath, currentNode: node })
+        ctx.currentPath = newPath
+        ctx.currentNode = node
+        set({ contexts: [...get().contexts] })
       },
 
-      ls: () => {
-        const dir = get().getCurrentDirectory()
+      ls: (pid) => {
+        const dir = get().getCurrentDirectory(pid)
         return dir.children ?? []
       },
 
-      mkdir: (args) => {
-        if (args.length < 1) return get().help(["mkdir"])
+      mkdir: (pid, args = []) => {
+        if (args.length < 1) return get().help(pid, ["mkdir"])
+
+        const ctx = get().contexts.find(c => c.processId === pid)!
         const name = args[0]
 
         set(state => {
           const root = clone(state.root)
-          const dir = getNodeAtPathHelper(root, state.currentPath)
+          const dir = getNodeAtPathHelper(root, ctx.currentPath)
           if (!dir) return {}
 
           dir.children = dir.children ?? []
 
           if (dir.children.some(c => c.name === name))
-            return { error: "mkdir: already exists" }
+            return {}
 
           dir.children.push({
             id: nanoid(),
@@ -127,21 +190,23 @@ export const useFileTree = create<State & Actions>()(
         })
       },
 
-      touch: (args) => {
-        if (args.length < 1) return get().help(["touch"])
+      touch: (pid, args = []) => {
+        if (args.length < 1) return get().help(pid, ["touch"])
 
         const name = args[0]
-        const content = args.slice(1).join(" ") || ""
+        const content = args.slice(1).join(" ")
+
+        const ctx = get().contexts.find(c => c.processId === pid)!
 
         set(state => {
           const root = clone(state.root)
-          const dir = getNodeAtPathHelper(root, state.currentPath)
+          const dir = getNodeAtPathHelper(root, ctx.currentPath)
           if (!dir) return {}
 
           dir.children = dir.children ?? []
 
           if (dir.children.some(c => c.name === name))
-            return { error: "touch: already exists" }
+            return {}
 
           dir.children.push({
             id: nanoid(),
@@ -154,13 +219,15 @@ export const useFileTree = create<State & Actions>()(
         })
       },
 
-      rename: (args) => {
-        if (args.length < 2) return get().help(["rename"])
+      rename: (pid, args = []) => {
+        if (args.length < 2) return get().help(pid, ["rename"])
+
+        const ctx = get().contexts.find(c => c.processId === pid)!
         const [oldName, newName] = args
 
         set(state => {
           const root = clone(state.root)
-          const dir = getNodeAtPathHelper(root, state.currentPath)
+          const dir = getNodeAtPathHelper(root, ctx.currentPath)
           if (!dir?.children) return {}
 
           const node = dir.children.find(c => c.name === oldName)
@@ -171,13 +238,15 @@ export const useFileTree = create<State & Actions>()(
         })
       },
 
-      rm: (args) => {
-        if (args.length < 1) return get().help(["rm"])
+      rm: (pid, args = []) => {
+        if (args.length < 1) return get().help(pid, ["rm"])
+
+        const ctx = get().contexts.find(c => c.processId === pid)!
         const name = args[0]
 
         set(state => {
           const root = clone(state.root)
-          const dir = getNodeAtPathHelper(root, state.currentPath)
+          const dir = getNodeAtPathHelper(root, ctx.currentPath)
           if (!dir?.children) return {}
 
           dir.children = dir.children.filter(
@@ -188,13 +257,15 @@ export const useFileTree = create<State & Actions>()(
         })
       },
 
-      rmdir: (args) => {
-        if (args.length < 1) return get().help(["rmdir"])
+      rmdir: (pid, args = []) => {
+        if (args.length < 1) return get().help(pid, ["rmdir"])
+
+        const ctx = get().contexts.find(c => c.processId === pid)!
         const name = args[0]
 
         set(state => {
           const root = clone(state.root)
-          const dir = getNodeAtPathHelper(root, state.currentPath)
+          const dir = getNodeAtPathHelper(root, ctx.currentPath)
           if (!dir?.children) return {}
 
           dir.children = dir.children.filter(
@@ -205,46 +276,76 @@ export const useFileTree = create<State & Actions>()(
         })
       },
 
-      //
-      // INTERNAL
-      //
-      writeFile: (name, content) => {
+      cat: (pid, args = []) => {
+        if (args.length < 1) return get().help(pid, ["cat"])
+        const ctx = get().contexts.find(c => c.processId === pid)!
+        const name = args[0]
+
+        const dir = get().getCurrentDirectory(pid)
+        const file = dir.children?.find(c => c.name === name && c.type === "file")
+
+        if (!file) return `cat: file not found: ${name}`
+        return file.content ?? ""
+      },
+
+      writeFile: (pid, name, content) => {
+        const ctx = get().contexts.find(c => c.processId === pid)!
+
         set(state => {
           const root = clone(state.root)
-          const dir = getNodeAtPathHelper(root, state.currentPath)
-          if (!dir?.children) return {}
+          const dir = getNodeAtPathHelper(root, ctx.currentPath)
+          if (!dir) return {}
 
-          const f = dir.children.find(c => c.name === name)
-          if (!f || f.type !== "file") return {}
+          const f = dir.children?.find(c => c.name === name && c.type === "file")
+          if (!f) return {}
 
           f.content = content
           return { root }
         })
       },
 
-      cat: (args: string[]) => {
-        if (args.length < 1) return get().help(["cat"])
-
-        const name = args[0]
-        const dir = get().getCurrentDirectory()
-
-        const file = dir.children?.find(
-          (c) => c.name === name && c.type === "file"
-        )
-
-        if (!file) return `cat: file not found: ${name}`
-        if (!file.content) return ""
-
-        return file.content
+      selectNode: (pid, id) => {
+        const ctx = get().contexts.find(c => c.processId === pid)!
+        ctx.selectedNodeId = id
+        set({ contexts: [...get().contexts] })
       },
 
-      getNodeAtPath: path => getNodeAtPathHelper(get().root, path),
+      //
+      // CONTEXT BINDING
+      //
+      createContext: () => {
+        const context = {
+          processId: ++get().pid_counter,
+          currentPath: [],
+          currentNode: null,
+          selectedNodeId: null
+        }
+        get().contexts.push(context)
+        return context
+      },
+      useContext: (pid) => {
+        const a = get()
 
-      getCurrentDirectory: () =>
-        get().getNodeAtPath(get().currentPath) ?? get().root,
+        return {
+          help:  (args) => a.help(pid, args),
+          cd:    (args) => a.cd(pid, args),
+          ls:    (args) => a.ls(pid, args),
+          mkdir: (args) => a.mkdir(pid, args),
+          touch: (args) => a.touch(pid, args),
+          rename:(args) => a.rename(pid, args),
+          rm:    (args) => a.rm(pid, args),
+          rmdir: (args) => a.rmdir(pid, args),
+          cat:   (args) => a.cat(pid, args),
 
-      selectNode: id => set({ selectedNodeId: id }),
+          writeFile: (n, c) => a.writeFile(pid, n, c),
+          getNodeAtPath: (p) => a.getNodeAtPath(pid, p),
+          getCurrentDirectory: () => a.getCurrentDirectory(pid),
+
+          selectNode: (id) => a.selectNode(pid, id)
+        }
+      }
     }),
+
     {
       name: "filetree-storage",
       storage: createJSONStorage(() => localStorage),

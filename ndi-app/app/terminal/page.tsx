@@ -1,21 +1,34 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useFileTree } from "@/stores/useFileTree"
 import { FileNode } from "@/types/file"
 
 export default function Terminal() {
   const [history, setHistory] = useState<string[]>([])
   const [input, setInput] = useState("")
+  const [pid, setPid] = useState<number | null>(null)
 
+  // Create a process on mount (pid)
+  useEffect(() => {
+    const api = useFileTree.getState()
+    const ctx = api.createContext()
+    setPid(ctx.processId)
+  }, [])
+
+  if (pid === null) return null
+
+  const api = useFileTree.getState().useContext(pid)
+
+  //
+  // RUN COMMAND
+  //
   const run = (cmd: string): string | FileNode[] | void => {
     const parts = cmd.trim().split(" ").filter(Boolean)
     if (parts.length === 0) return
 
     const name = parts[0]
     const args = parts.slice(1)
-
-    const api = useFileTree.getState()
 
     switch (name) {
       case "help":  return api.help(args)
@@ -32,12 +45,17 @@ export default function Terminal() {
     }
   }
 
+  //
+  // LS formatting
+  //
   function formatNodeForLs(node: FileNode): string {
     if (node.type === "directory") return node.name + "/"
     return node.name
   }
 
-
+  //
+  // ENTER KEY HANDLER
+  //
   const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return
 
@@ -51,7 +69,6 @@ export default function Terminal() {
       lines.push(`> ${cmd}`)
 
       if (Array.isArray(result)) {
-        // ls output formatting
         const out = result.map(formatNodeForLs)
         lines.push(...out)
       }  
@@ -62,13 +79,16 @@ export default function Terminal() {
       return [...h, ...lines]
     })
 
-
     setInput("")
   }
 
+  //
+  // RENDER
+  //
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "300px" }}>
-      {/* output */}
+      
+      {/* OUTPUT */}
       <div
         style={{
           flex: 1,
@@ -84,7 +104,7 @@ export default function Terminal() {
         ))}
       </div>
 
-      {/* input */}
+      {/* INPUT */}
       <input
         style={{
           fontFamily: "monospace",
