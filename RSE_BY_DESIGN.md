@@ -3,7 +3,7 @@
 ## Défi NUMIH FRANCE - Responsabilité Sociétale des Entreprises
 
 **Projet** : LearnLinux - Simulateur Linux Éducatif
-**Équipe** : Ludovic Bergeron, Yoann Corgnet, Antoine Przyplata, Romain Blanchot, Thomas Letellier
+**Équipe** : Ludovic Bergeron, Yoann Corgnet, Antoine Przyplata, Romain Blanchot, Thomas Letellier, Ahmed Berada
 **Date** : Décembre 2025
 
 ---
