@@ -3,7 +3,7 @@
 import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Desktop } from '@/components/desktop/Desktop';
-import { TutorialOverlay } from '@/components/tutorial';
+import { ProgressBar, TutorialOverlay } from '@/components/tutorial';
 import { useTutorialStore } from '@/stores/tutorialStore';
 import { Monitor } from 'lucide-react';
 
