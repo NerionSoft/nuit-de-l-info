@@ -1,187 +1,156 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Play, ArrowRight, Terminal, Folder, Settings, GraduationCap } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
 
 export function Hero() {
   return (
-    <section className="relative pt-32 pb-20 px-4 overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[#EEEFE9]">
-        <div className="absolute inset-0 opacity-30">
-          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern
-                id="grid"
-                width="40"
-                height="40"
-                patternUnits="userSpaceOnUse"
-              >
-                <path
-                  d="M 40 0 L 0 0 0 40"
-                  fill="none"
-                  stroke="#D0D1C9"
-                  strokeWidth="1"
-                />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-          </svg>
-        </div>
-      </div>
+    <section className="relative px-4 overflow-hidden h-screen flex items-center">
+      {/* Background */}
+      <div className="absolute inset-0 bg-[#EEEFE9]" />
 
-      <div className="relative max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      {/* Subtle gradient orbs */}
+      <div className="absolute top-20 right-1/4 w-96 h-96 bg-[#3B82F6]/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 left-1/4 w-80 h-80 bg-[#1E40AF]/10 rounded-full blur-3xl" />
+
+      <div className="relative max-w-6xl mx-auto w-full">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left: Content */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             className="text-center lg:text-left"
           >
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm border border-[#D0D1C9] mb-6"
-            >
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <span className="text-sm font-medium text-[#6B6B6B]">
-                100% gratuit et open source
-              </span>
-            </motion.div>
-
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#151515] leading-tight mb-6">
-              Apprends Linux de manière{' '}
-              <span className="text-[#3B82F6]">interactive</span>
+            {/* Title */}
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#151515] leading-tight mb-2">
+              Apprends Linux
+            </h1>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#3B82F6] leading-tight mb-6">
+              en jouant
             </h1>
 
-            <p className="text-lg md:text-xl text-[#6B6B6B] mb-8 max-w-xl mx-auto lg:mx-0">
-              Découvre Linux dans ton navigateur. Un simulateur complet pour
-              apprendre les commandes Linux, explorer le système de fichiers et
-              maîtriser le terminal.
+            {/* Subtitle */}
+            <p className="text-lg text-[#6B6B6B] mb-8 max-w-md mx-auto lg:mx-0">
+              Une simulation Linux complete dans ton navigateur.
+              Pas d&apos;installation, juste de la pratique.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Link href="/desktop?tutorial=true">
-                <Button variant="primary" size="lg" className="w-full sm:w-auto">
-                  <GraduationCap className="w-5 h-5 mr-2" />
+            {/* CTA */}
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center lg:justify-start mb-8">
+              <Link
+                href="/desktop?tutorial=true"
+                className="group w-full sm:w-auto px-6 py-3 bg-[#3B82F6] hover:bg-[#2563EB] text-white rounded-xl font-semibold transition-all shadow-lg shadow-[#3B82F6]/25 text-center"
+              >
+                <span className="flex items-center justify-center gap-2">
                   Commencer le tutoriel
-                </Button>
+                  <svg
+                    className="w-4 h-4 transition-transform group-hover:translate-x-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </span>
               </Link>
-              <Link href="/desktop">
-                <Button
-                  variant="secondary"
-                  size="lg"
-                  className="w-full sm:w-auto"
-                >
-                  <Play className="w-5 h-5 mr-2" />
-                  Mode libre
-                </Button>
+              <Link
+                href="/desktop"
+                className="px-4 py-3 text-[#6B6B6B] hover:text-[#3B82F6] font-medium transition-colors"
+              >
+                Explorer librement
               </Link>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-[#D0D1C9]">
-              <div>
-                <div className="text-2xl font-bold text-[#3B82F6]">15+</div>
-                <div className="text-sm text-[#6B6B6B]">Commandes</div>
+            {/* Trust indicators */}
+            <div className="flex flex-wrap gap-4 sm:gap-6 text-sm text-[#6B6B6B] justify-center lg:justify-start">
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-[#22C55E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Gratuit
               </div>
-              <div>
-                <div className="text-2xl font-bold text-[#3B82F6]">6+</div>
-                <div className="text-sm text-[#6B6B6B]">Applications</div>
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-[#22C55E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Sans installation
               </div>
-              <div>
-                <div className="text-2xl font-bold text-[#3B82F6]">100%</div>
-                <div className="text-sm text-[#6B6B6B]">Gratuit</div>
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-[#22C55E]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Open source
               </div>
             </div>
           </motion.div>
 
-          {/* Right: Desktop Preview */}
+          {/* Right: Terminal Preview + Mascotte */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
             className="relative"
           >
-            {/* Desktop Window Mockup */}
-            <div className="relative bg-[#0F172A] rounded-xl shadow-2xl overflow-hidden border border-white/10">
-              {/* Title Bar */}
-              <div className="flex items-center gap-2 px-4 py-3 bg-[#3C0028]">
-                <div className="w-3 h-3 rounded-full bg-[#3B82F6]" />
-                <div className="w-3 h-3 rounded-full bg-[#F5A623]" />
-                <div className="w-3 h-3 rounded-full bg-[#7ED321]" />
-                <span className="ml-4 text-white/80 text-sm">
-                  Linux Simulator
-                </span>
-              </div>
-
-              {/* Desktop Content */}
-              <div
-                className="p-6 min-h-[300px] relative"
-                style={{
-                  background:
-                    'linear-gradient(135deg, #3B82F6 0%, #1E40AF 50%, #0F172A 100%)',
-                }}
-              >
-                {/* Desktop Icons */}
-                <div className="grid grid-cols-4 gap-4">
-                  {[
-                    { icon: Terminal, label: 'Terminal' },
-                    { icon: Folder, label: 'Files' },
-                    { icon: Settings, label: 'Settings' },
-                  ].map((item) => (
-                    <motion.div
-                      key={item.label}
-                      whileHover={{ scale: 1.05 }}
-                      className="flex flex-col items-center gap-2 p-3 rounded-lg bg-white/10 backdrop-blur-sm"
-                    >
-                      <item.icon className="w-8 h-8 text-white" />
-                      <span className="text-xs text-white/90">{item.label}</span>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Terminal Window Preview */}
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.8 }}
-                  className="absolute bottom-4 right-4 left-4 bg-[#0F172A] rounded-lg shadow-xl overflow-hidden"
-                >
-                  <div className="flex items-center gap-2 px-3 py-2 bg-[#3C0028]">
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#3B82F6]" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#F5A623]" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#7ED321]" />
-                    <span className="ml-2 text-white/70 text-xs">Terminal</span>
-                  </div>
-                  <div className="p-3 font-mono text-xs">
-                    <div className="text-green-400">
-                      user@linux-sim:~$
-                    </div>
-                    <div className="text-white/90 mt-1">
-                      <span className="text-green-400">$</span> ls -la
-                    </div>
-                    <div className="text-white/70 mt-1">
-                      drwxr-xr-x Documents
-                    </div>
-                    <div className="text-white/70">drwxr-xr-x Downloads</div>
-                    <div className="text-white/70">drwxr-xr-x Pictures</div>
-                    <div className="text-green-400 mt-1 animate-pulse">
-                      user@linux-sim:~$ _
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
+            {/* Mobile: Mascotte only */}
+            <div className="lg:hidden flex justify-center mb-8">
+              <Image
+                src="/mascotte.png"
+                alt="LearnLinux mascotte"
+                width={120}
+                height={120}
+                priority
+              />
             </div>
 
-            {/* Decorative Elements */}
-            <div className="absolute -top-4 -right-4 w-24 h-24 bg-[#3B82F6]/20 rounded-full blur-2xl" />
-            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-[#1E40AF]/20 rounded-full blur-2xl" />
+            {/* Desktop: Terminal + Mascotte */}
+            <div className="hidden lg:block">
+              {/* Mascotte floating */}
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="absolute -top-8 -right-4 z-10"
+              >
+                <Image
+                  src="/mascotte.png"
+                  alt="LearnLinux mascotte"
+                  width={80}
+                  height={80}
+                  priority
+                />
+              </motion.div>
+
+              <div className="bg-[#0F172A] rounded-xl shadow-2xl overflow-hidden border border-white/10">
+                {/* Title Bar */}
+                <div className="flex items-center gap-2 px-4 py-3 bg-[#1E293B] border-b border-white/5">
+                  <div className="w-3 h-3 rounded-full bg-[#EF4444]" />
+                  <div className="w-3 h-3 rounded-full bg-[#F59E0B]" />
+                  <div className="w-3 h-3 rounded-full bg-[#22C55E]" />
+                  <span className="ml-3 text-white/60 text-sm font-mono">terminal</span>
+                </div>
+
+                {/* Terminal Content */}
+                <div className="p-5 font-mono text-sm leading-relaxed">
+                  <div className="text-[#22C55E]">user@learn-linux:~$</div>
+                  <div className="text-white/90 mt-2">
+                    <span className="text-[#22C55E]">$</span> whoami
+                  </div>
+                  <div className="text-white/70 mt-1">student</div>
+                  <div className="text-white/90 mt-3">
+                    <span className="text-[#22C55E]">$</span> echo &quot;Hello Linux!&quot;
+                  </div>
+                  <div className="text-white/70 mt-1">Hello Linux!</div>
+                  <div className="text-[#22C55E] mt-3 flex items-center">
+                    user@learn-linux:~$ <span className="w-2 h-4 bg-white/80 ml-1 animate-pulse" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Decorative shadow */}
+              <div className="absolute -inset-4 bg-[#3B82F6]/5 rounded-2xl -z-10 blur-xl" />
+            </div>
           </motion.div>
         </div>
       </div>

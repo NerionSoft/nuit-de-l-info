@@ -32,11 +32,11 @@ export function TutorialOverlay() {
 
   return (
     <>
-      {/* Highlight overlay for action steps */}
-      <TutorialHighlight />
-
       {/* Progress bar at top */}
       <ProgressBar />
+      
+      {/* Highlight overlay for action steps */}
+      <TutorialHighlight />
 
       {/* Step card (QCM or instruction) */}
       <AnimatePresence mode="wait">
