@@ -7,6 +7,7 @@ import {
   DEFAULT_WINDOW_SIZES,
   APP_TITLES,
 } from '@/types/desktop';
+import { useMetricsStore } from './metricsStore';
 
 interface DesktopStore {
   // State
@@ -69,6 +70,9 @@ export const useDesktopStore = create<DesktopStore>((set, get) => ({
       get().restoreWindow(minimizedWindow.id);
       return;
     }
+
+    // Track app opening (only for new windows)
+    useMetricsStore.getState().incrementApps();
 
     const id = generateId();
     const size = DEFAULT_WINDOW_SIZES[app];

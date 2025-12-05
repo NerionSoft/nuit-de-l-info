@@ -94,6 +94,7 @@ function DesktopContent() {
 
   return (
     <>
+      <MetricsTracker />
       <Desktop />
       <TutorialOverlay />
     </>
