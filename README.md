@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LearnLinux
 
-## Getting Started
+Simulateur Linux dans le navigateur - Projet Nuit de l'Info 2025
 
-First, run the development server:
+## C'est quoi ?
+
+Un simulateur Linux complet qui tourne direct dans ton navigateur. Pas besoin d'installer quoi que ce soit, tu lances et tu apprends.
+
+- Terminal avec les vraies commandes (`ls`, `cd`, `cat`, `mkdir`, etc.)
+- Gestionnaire de fichiers style GNOME
+- Editeur de texte
+- Tutoriel guide pour les debutants
+
+## Stack
+
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+
+## Lancer le projet
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ouvre [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## L'equipe
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Projet realise par **NerionSoft** :
 
-## Learn More
+- Romain Blanchot
+- Thomas Letellier
+- Yoann Corgnet
+- Ludovic Bergeron
+- Antoine Przyplata
+- Ahmed Berrada
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
