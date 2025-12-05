@@ -4,6 +4,7 @@ import { Hero } from '@/components/landing/Hero';
 import { Features } from '@/components/landing/Features';
 import { AppShowcase } from '@/components/landing/AppShowcase';
 import { HowItWorks } from '@/components/landing/HowItWorks';
+import { Credits } from '@/components/landing/Credits';
 import { Footer } from '@/components/landing/Footer';
 
 export const metadata: Metadata = {
@@ -25,6 +26,7 @@ export default function Home() {
       <Features />
       <AppShowcase />
       <HowItWorks />
+      <Credits />
       <Footer />
     </main>
   );

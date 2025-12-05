@@ -33,7 +33,7 @@ export function Footer() {
               Linux.org
             </a>
             <a
-              href="https://github.com"
+              href="https://github.com/NerionSoft"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white/60 hover:text-white transition-colors"
@@ -46,10 +46,10 @@ export function Footer() {
         {/* Bottom */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/50">
           <p>
-            2025 LearnLinux. Fait pour la Nuit de l&apos;Info.
+            Fait pour la Nuit de l&apos;Info 2025.
           </p>
           <p>
-            Linux est une marque deposee.
+            © 2025 NerionSoft.
           </p>
         </div>
       </div>
