@@ -13,13 +13,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'UbuntuSim - Simulateur Ubuntu Interactif',
+  title: 'Learnlinux - Simulateur Ubuntu Interactif',
   description:
     'Apprends Linux de manière interactive avec notre simulateur Ubuntu. Terminal, gestionnaire de fichiers, et plus encore - directement dans ton navigateur.',
   keywords: ['Ubuntu', 'Linux', 'Simulateur', 'Terminal', 'Apprentissage', 'Éducation'],
   authors: [{ name: 'Nuit de l\'Info' }],
   openGraph: {
-    title: 'UbuntuSim - Simulateur Ubuntu Interactif',
+    title: 'Learnlinux - Simulateur Ubuntu Interactif',
     description: 'Apprends Linux de manière interactive avec notre simulateur Ubuntu.',
     type: 'website',
   },
