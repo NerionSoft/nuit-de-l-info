@@ -1,124 +1,64 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import {
-  Terminal,
-  Folder,
-  Globe,
-  Settings,
-  FileText,
-  Calculator,
-} from 'lucide-react';
 
 const apps = [
   {
-    icon: Terminal,
     name: 'Terminal',
-    description: 'Exécute des commandes Linux',
+    description: 'Execute des commandes Linux',
     preview: (
-      <div className="bg-[#0F172A] rounded-lg p-3 font-mono text-xs">
-        <div className="text-green-400">$ ls Documents/</div>
-        <div className="text-white/70">notes.txt  todo.txt</div>
-        <div className="text-green-400">$ cat notes.txt</div>
-        <div className="text-white/70">Hello Linux!</div>
+      <div className="bg-[#0F172A] rounded-lg p-4 font-mono text-xs h-full">
+        <div className="text-[#22C55E]">$ ls -la</div>
+        <div className="text-white/70 mt-1">drwxr-xr-x Documents</div>
+        <div className="text-white/70">drwxr-xr-x Downloads</div>
+        <div className="text-[#22C55E] mt-2 flex items-center">
+          $ <span className="w-1.5 h-3 bg-white/70 ml-1 animate-pulse" />
+        </div>
       </div>
     ),
   },
   {
-    icon: Folder,
     name: 'Files',
     description: 'Explore tes fichiers',
     preview: (
-      <div className="bg-[#1E1E1E] rounded-lg p-3">
-        <div className="flex gap-2">
+      <div className="bg-[#1E1E1E] rounded-lg p-4 h-full">
+        <div className="flex gap-3">
           <div className="flex flex-col items-center">
-            <div className="w-8 h-8 bg-[#3B82F6] rounded flex items-center justify-center">
-              <Folder className="w-4 h-4 text-white" />
+            <div className="w-10 h-10 bg-[#3B82F6]/20 rounded-lg flex items-center justify-center">
+              <svg className="w-5 h-5 text-[#3B82F6]" viewBox="0 0 24 24" fill="none">
+                <path d="M3 7c0-1.1.9-2 2-2h4l2 2h8c1.1 0 2 .9 2 2v9c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V7z" fill="currentColor" />
+              </svg>
             </div>
-            <span className="text-[10px] text-white/70 mt-1">Documents</span>
+            <span className="text-[10px] text-white/60 mt-1">Documents</span>
           </div>
           <div className="flex flex-col items-center">
-            <div className="w-8 h-8 bg-[#3B82F6] rounded flex items-center justify-center">
-              <Folder className="w-4 h-4 text-white" />
+            <div className="w-10 h-10 bg-[#3B82F6]/20 rounded-lg flex items-center justify-center">
+              <svg className="w-5 h-5 text-[#3B82F6]" viewBox="0 0 24 24" fill="none">
+                <path d="M3 7c0-1.1.9-2 2-2h4l2 2h8c1.1 0 2 .9 2 2v9c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V7z" fill="currentColor" />
+              </svg>
             </div>
-            <span className="text-[10px] text-white/70 mt-1">Downloads</span>
+            <span className="text-[10px] text-white/60 mt-1">Downloads</span>
           </div>
         </div>
       </div>
     ),
   },
   {
-    icon: Globe,
-    name: 'Firefox',
-    description: 'Navigue sur le web',
-    preview: (
-      <div className="bg-[#2D2D2D] rounded-lg overflow-hidden">
-        <div className="bg-[#3D3D3D] px-2 py-1 flex items-center gap-2">
-          <div className="flex gap-1">
-            <div className="w-2 h-2 rounded-full bg-[#3B82F6]" />
-            <div className="w-2 h-2 rounded-full bg-yellow-500" />
-            <div className="w-2 h-2 rounded-full bg-green-500" />
-          </div>
-          <div className="flex-1 bg-[#1E1E1E] rounded px-2 py-0.5 text-[10px] text-white/50">
-            linux.org
-          </div>
-        </div>
-        <div className="p-2 bg-[#0F172A] text-center text-white/80 text-xs">
-          Linux Home
-        </div>
-      </div>
-    ),
-  },
-  {
-    icon: Settings,
-    name: 'Settings',
-    description: 'Configure ton système',
-    preview: (
-      <div className="bg-[#1E1E1E] rounded-lg p-2">
-        <div className="flex items-center gap-2 text-white/80 text-xs mb-2">
-          <Settings className="w-3 h-3" />
-          <span>Appearance</span>
-        </div>
-        <div className="flex gap-1">
-          <div className="w-6 h-6 rounded bg-[#0F172A] ring-1 ring-[#3B82F6]" />
-          <div className="w-6 h-6 rounded bg-gray-200" />
-        </div>
-      </div>
-    ),
-  },
-  {
-    icon: FileText,
     name: 'Text Editor',
-    description: 'Édite tes fichiers',
+    description: 'Edite tes fichiers',
     preview: (
-      <div className="bg-[#1E1E1E] rounded-lg p-2 font-mono text-[10px]">
+      <div className="bg-[#1E1E1E] rounded-lg p-4 font-mono text-xs h-full">
         <div className="flex">
-          <div className="text-white/30 pr-2">1</div>
-          <div className="text-white/80"># Mon fichier</div>
+          <div className="text-white/30 pr-3 select-none">1</div>
+          <div className="text-[#7DD3FC]"># Mon fichier</div>
         </div>
         <div className="flex">
-          <div className="text-white/30 pr-2">2</div>
+          <div className="text-white/30 pr-3 select-none">2</div>
           <div className="text-white/80">Hello Linux!</div>
         </div>
-      </div>
-    ),
-  },
-  {
-    icon: Calculator,
-    name: 'Calculator',
-    description: 'Fais des calculs',
-    preview: (
-      <div className="bg-[#1E1E1E] rounded-lg p-2">
-        <div className="text-right text-white text-lg mb-1">42</div>
-        <div className="grid grid-cols-4 gap-0.5">
-          {['7', '8', '9', '÷'].map((btn) => (
-            <div
-              key={btn}
-              className="bg-white/10 rounded text-center text-white/80 text-xs py-1"
-            >
-              {btn}
-            </div>
-          ))}
+        <div className="flex">
+          <div className="text-white/30 pr-3 select-none">3</div>
+          <div className="text-white/40">|</div>
         </div>
       </div>
     ),
@@ -127,8 +67,8 @@ const apps = [
 
 export function AppShowcase() {
   return (
-    <section id="apps" className="py-20 px-4 bg-[#EEEFE9]">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-24 px-4 bg-[#EEEFE9]">
+      <div className="max-w-5xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -136,49 +76,37 @@ export function AppShowcase() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <span className="inline-block px-4 py-1 bg-[#1E40AF]/10 text-[#1E40AF] rounded-full text-sm font-medium mb-4">
-            Applications
-          </span>
           <h2 className="text-3xl md:text-4xl font-bold text-[#151515] mb-4">
             Des applications comme sur un vrai Linux
           </h2>
-          <p className="text-lg text-[#6B6B6B] max-w-2xl mx-auto">
-            Explore les applications essentielles de Linux dans un environnement
-            sûr
+          <p className="text-lg text-[#6B6B6B] max-w-xl mx-auto">
+            Explore les outils essentiels dans un environnement sur
           </p>
         </motion.div>
 
         {/* Apps Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {apps.map((app, index) => {
-            const Icon = app.icon;
-            return (
-              <motion.div
-                key={app.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white rounded-xl border border-[#E5E5E5] overflow-hidden hover:shadow-lg transition-shadow"
-              >
-                {/* Preview */}
-                <div className="p-4 bg-gradient-to-br from-[#0F172A] to-[#1E40AF]">
-                  {app.preview}
-                </div>
+        <div className="grid md:grid-cols-3 gap-6">
+          {apps.map((app, index) => (
+            <motion.div
+              key={app.name}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className="bg-white rounded-2xl overflow-hidden border border-[#E5E5E5] hover:shadow-lg transition-shadow"
+            >
+              {/* Preview */}
+              <div className="p-4 h-32 bg-gradient-to-br from-[#0F172A] to-[#1E3A8A]">
+                {app.preview}
+              </div>
 
-                {/* Info */}
-                <div className="p-4 flex items-start gap-3">
-                  <div className="w-10 h-10 bg-[#3B82F6]/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-5 h-5 text-[#3B82F6]" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-[#151515]">{app.name}</h3>
-                    <p className="text-sm text-[#6B6B6B]">{app.description}</p>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
+              {/* Info */}
+              <div className="p-5">
+                <h3 className="font-semibold text-[#151515] mb-1">{app.name}</h3>
+                <p className="text-sm text-[#6B6B6B]">{app.description}</p>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

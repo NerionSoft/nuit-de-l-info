@@ -3,8 +3,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -27,78 +25,14 @@ export function Navbar() {
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            <Link
-              href="#features"
-              className="text-[#151515] hover:text-[#3B82F6] transition-colors font-medium"
-            >
-              Features
-            </Link>
-            <Link
-              href="#apps"
-              className="text-[#151515] hover:text-[#3B82F6] transition-colors font-medium"
-            >
-              Applications
-            </Link>
-            <Link
-              href="#learn"
-              className="text-[#151515] hover:text-[#3B82F6] transition-colors font-medium"
-            >
-              Learn
-            </Link>
-          </div>
-
           {/* CTA */}
-          <div className="hidden md:flex items-center gap-3">
-            <Link href="/desktop">
-              <Button variant="primary">Essayer maintenant</Button>
-            </Link>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-black/5"
+          <Link
+            href="/desktop?tutorial=true"
+            className="px-5 py-2.5 bg-[#3B82F6] hover:bg-[#2563EB] text-white rounded-lg font-medium transition-colors"
           >
-            {isMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
+            Commencer
+          </Link>
         </div>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-[#D0D1C9]">
-            <div className="flex flex-col gap-4">
-              <Link
-                href="#features"
-                className="text-[#151515] hover:text-[#3B82F6] transition-colors font-medium"
-              >
-                Features
-              </Link>
-              <Link
-                href="#apps"
-                className="text-[#151515] hover:text-[#3B82F6] transition-colors font-medium"
-              >
-                Applications
-              </Link>
-              <Link
-                href="#learn"
-                className="text-[#151515] hover:text-[#3B82F6] transition-colors font-medium"
-              >
-                Learn
-              </Link>
-              <Link href="/desktop">
-                <Button variant="primary" className="w-full">
-                  Essayer maintenant
-                </Button>
-              </Link>
-            </div>
-          </div>
-        )}
       </div>
     </nav>
   );
